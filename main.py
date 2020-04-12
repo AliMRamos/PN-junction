@@ -3,22 +3,24 @@ import re
 import argparse
 import Calculations as cal
 
-parser = argparse.ArgumentParser(description="Obtain the theoretical results for a PN junction of Si")
+parser = argparse.ArgumentParser(description="Obtain the theoretical results for a PN junction (default values for Si")
 parser.add_argument('-i', metavar='config_file', help='path to the config.txt', default=None)
-parser.add_argument('-o', metavar='file_name', help='specify this option to rename the file.')
-parser.add_argument('-t', metavar='temperature', help='temperature for the simulation in [K].', type=float, default=300.)
-parser.add_argument('-mh', metavar='effective_mass_holes', help='effective mass of the holes for the material.',
+parser.add_argument('-o', metavar='file_name', help='specify this option to rename the file')
+parser.add_argument('-t', metavar='temperature (300.)', help='temperature for the simulation in [K]', type=float,
+                    default=300.)
+parser.add_argument('-mh', metavar='effective_mass_holes (0.01)', help='effective mass of the holes for the material',
                     type=float, default=0.81)
-parser.add_argument('-me', metavar='effective_mass_electrons', help='effective mass of the electrons for the material.',
+parser.add_argument('-me', metavar='effective_mass_electrons (1.18)',
+                    help='effective mass of the electrons for the material',
                     type=float, default=1.18)
-parser.add_argument('-ge', metavar='energy_gap', help='energy gap of the material [eV].', type=float, default=1.12)
-parser.add_argument('-rp', metavar='relative_permittivity', help='relative permittivity of the material.', type=float,
+parser.add_argument('-ge', metavar='energy_gap (1.12)', help='energy gap of the material [eV]', type=float, default=1.12)
+parser.add_argument('-rp', metavar='relative_permittivity (11.8)', help='relative permittivity of the material', type=float,
                     default=11.8)
-parser.add_argument('-d', metavar='donors', help='specify the donors [cm-3] with the format 4.2e15', type=float,
+parser.add_argument('-d', metavar='donors (5.0e16)', help='specify the donors [cm-3] with the format 4.2e15', type=float,
                     default=5.0e16)
-parser.add_argument('-a', metavar='acceptors', help='specify the acceptors [cm-3] with the format 6.7e16', type=float,
+parser.add_argument('-a', metavar='acceptors (5.0e16)', help='specify the acceptors [cm-3] with the format 6.7e16', type=float,
                     default=5.0e16)
-parser.add_argument('-b', metavar='bias', help='specify the bias [V]: forward 0.2, reverse -0.3', type=float,
+parser.add_argument('-b', metavar='bias (0.0)', help='specify the bias [V]: forward 0.2, reverse -0.3', type=float,
                     default=0.0)
 args = parser.parse_args()
 
@@ -39,26 +41,25 @@ def get_config(config_file):
 
 
 if args.i is None:
-    effective_mass_holes     = args.mh
+    effective_mass_holes = args.mh
     effective_mass_electrons = args.me
-    temperature              = args.t
-    gap_energy               = args.ge
-    relative_permittivity    = args.rp
-    donors                   = args.d
-    acceptors                = args.a
-    bias                     = args.b
+    temperature = args.t
+    gap_energy = args.ge
+    relative_permittivity = args.rp
+    donors = args.d
+    acceptors = args.a
+    bias = args.b
 
 else:
-    parameter                = get_config(args.i)
-    effective_mass_holes     = float(parameter["effective_mass_holes"])
+    parameter = get_config(args.i)
+    effective_mass_holes = float(parameter["effective_mass_holes"])
     effective_mass_electrons = float(parameter["effective_mass_electrons"])
-    temperature              = float(parameter["temperature"])
-    gap_energy               = float(parameter["gap_energy"])
-    relative_permittivity    = float(parameter["relative_permittivity"])
-    donors                   = float(parameter["donors"])
-    acceptors                = float(parameter["acceptors"])
-    bias                     = float(parameter["bias"])
-
+    temperature = float(parameter["temperature"])
+    gap_energy = float(parameter["gap_energy"])
+    relative_permittivity = float(parameter["relative_permittivity"])
+    donors = float(parameter["donors"])
+    acceptors = float(parameter["acceptors"])
+    bias = float(parameter["bias"])
 
 n_i, N_V, N_C = cal.intrinsic_concentration(temperature, gap_energy)
 p_p, n_n, p_n, n_p = cal.carriers(n_i, donors, acceptors)
@@ -71,14 +72,12 @@ ValToIn, CondToIn, p_type, n_type = cal.bands(gap_energy, temperature, acceptors
                                               effective_mass_holes, effective_mass_electrons)
 quasi_f, quasi_f_2, fermi = cal.displacement_bands(n_type, p_type, V_bi, bias)
 
-
 if bias != 0.0:
     V_j = cal.bias(V_bi, bias)
     x_p_bias = cal.depletion_p_bias(relative_permittivity, V_j, donors, acceptors)
     x_n_bias = cal.depletion_n_bias(relative_permittivity, V_j, donors, acceptors)
     W_bias = cal.depletion_zone_bias(relative_permittivity, V_j, donors)
     E_max_bias = cal.field_maximum_bias(donors, x_n_bias, relative_permittivity)
-
 
 '''
 
@@ -123,7 +122,9 @@ f.writelines("\t{:15} = {:{}{}.{}}[{}] \n".format('E_C - E_i', CondToIn, '<', 10
 f.writelines("\t{:15} = {:{}{}.{}}[{}] (P region) \n".format('E_F - E_i', p_type, '<', 10, '3f', 'eV'))
 f.writelines("\t{:15} = {:{}{}.{}}[{}] (N region)\n".format('E_F - E_i', n_type, '<', 10, '3f', 'eV'))
 f.writelines("\t{:15} = {:{}{}.{}}[{}] (Energy displacement)\n".format('(E_i)p - (E_i)n', quasi_f, '<', 10, '3f', 'V'))
-f.writelines("\t{:15} = {:{}{}.{}}[{}] (Validation of the energy displacement)\n".format('(E_i)p - (E_i)n', quasi_f_2, '<', 10, '3f', 'V'))
+f.writelines(
+    "\t{:15} = {:{}{}.{}}[{}] (Validation of the energy displacement)\n".format('(E_i)p - (E_i)n', quasi_f_2, '<', 10,
+                                                                                '3f', 'V'))
 f.writelines('                   --------                    \n')
 f.writelines("\t{:5} = {:{}{}.{}}[{}] \n".format('V_bi', V_bi, '<', 10, '3f', 'V'))
 f.writelines("\t{:5} = {:{}{}.{}}[{}] \n".format('x_n', x_n, '<', 10, '2e', 'cm'))
