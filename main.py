@@ -3,7 +3,7 @@ import re
 import argparse
 import Calculations as cal
 
-parser = argparse.ArgumentParser(description="Obtain the theoretical results for a PN junction (default values for Si")
+parser = argparse.ArgumentParser(description="Obtain the theoretical results for a PN junction (default values for Si)")
 parser.add_argument('-i', metavar='config_file', help='path to the config.txt', default=None)
 parser.add_argument('-o', metavar='file_name', help='specify this option to rename the file')
 parser.add_argument('-t', metavar='temperature (300.)', help='temperature for the simulation in [K]', type=float,
