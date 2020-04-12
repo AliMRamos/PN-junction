@@ -1,0 +1,17 @@
+#Configure file
+#
+#
+#Units expressed in:
+#   temperature [K]
+#   gap_energy  [eV]
+#   donors      [cm-3]
+#   acceptors   [cm-3]
+#   bias        [V]
+effective_mass_holes     = 0.81
+effective_mass_electrons = 1.18
+temperature              = 300.
+gap_energy               = 1.12
+relative_permittivity    = 11.8
+donors                   = 5.0e16
+acceptors                = 5.0e16
+bias                     = 0.2
