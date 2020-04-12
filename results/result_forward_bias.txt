@@ -1,0 +1,45 @@
+						+---------------+
+						|  PN JUNCTION  |
+						+---------------+
+
+
++------------Initial Configuration------------+
+	Temperature              = 300.00    [K] 
+	Energy gap               = 1.12      [eV] 
+	Donors                   = 5.00e+16  [cm-3] 
+	Acceptors                = 5.00e+16  [cm-3] 
+	Bias                     = 0.20      [V] 
+	Effective mass holes     = 0.81       
+	Effective mass electrons = 1.18       
+	Relative permittivity    = 11.80      
++---------------------------------------------+
+
+
++-------------------Results-------------------+
+	n_i     = 9.54e+09  [cm-3] 
+	p = p_p = 5.00e+16  [cm-3] 
+	n = n_n = 5.00e+16  [cm-3] 
+	p_n     = 1.82e+03  [cm-3] 
+	n_p     = 1.82e+03  [cm-3] 
+                   --------                    
+	E_i - E_V       = 0.553     [eV] 
+	E_C - E_i       = 0.567     [eV] 
+	E_F - E_i       = -0.400    [eV] (P region) 
+	E_F - E_i       = 0.400     [eV] (N region)
+	(E_i)p - (E_i)n = 0.800     [V] (Energy displacement)
+	(E_i)p - (E_i)n = 0.800     [V] (Validation of the energy displacement)
+                   --------                    
+	V_bi  = 0.800     [V] 
+	x_n   = 1.02e-05  [cm] 
+	x_p   = 1.02e-05  [cm] 
+	W     = 2.04e-05  [cm] 
+	E_max = -7.83e+04 [V/cm] 
+                   --------                    
+	V_A             = 0.200     [V] 
+	V_j             = 0.600     [V] 
+	(x_n)'          = 8.85e-06  [cm] 
+	(x_p)'          = 8.85e-06  [cm] 
+	W'              = 1.25e-05  [cm] 
+	E_max           = -6.78e+04 [V/cm] 
+	(E_i)p - (E_i)n = 0.200     [V] (Energy displacement)
++---------------------------------------------+
